@@ -14,17 +14,13 @@
 // import statement to bring in the Express application instance from the app.js file and the connectRedis function
 // from the Redis configuration file. This allows us to set up our server and establish a connection to Redis
 // before starting to listen for incoming requests.
-import app from './src/app.js';
-import { connectRedis } from './src/config/redis.js';
+const express = require("express");
+const app = express();
 
-const PORT = 3000;
+app.get("/", (req, res) => {
+  res.send("Redis Locking Mechanism API is running 🚀");
+});
 
-const startServer = async () => {
-    await connectRedis();
-
-    app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
-    });
-};
-
-startServer();
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
