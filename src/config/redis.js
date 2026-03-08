@@ -4,7 +4,7 @@ export const redisClient = createClient({
   url: process.env.REDIS_URL,
   socket: {
     tls: true,
-    reconnectStrategy: (retries) => Math.min(retries * 50, 500)
+    connectTimeout: 10000
   }
 });
 
@@ -12,6 +12,11 @@ redisClient.on("error", (err) => {
   console.error("Redis Client Error:", err);
 });
 
-await redisClient.connect();
-
-console.log("Redis connected");
+export const connectRedis = async () => {
+  try {
+    await redisClient.connect();
+    console.log("✅ Redis connected");
+  } catch (err) {
+    console.error("❌ Redis connection failed:", err);
+  }
+};
